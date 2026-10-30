@@ -11,6 +11,7 @@ I'm moving from IT Support to cloud and security work. This project is based on 
 
 ## What was changed
 - **Terraform:** I built the entire project in Terraform, so it's repeatable, reviewable and version-controlled.
+- **S3 remote backend:** I migrated the local Terraform state file while enabling AES-256 encryption, S3 bucket versioning, and state locking to emulate a production CI/CD environment.
 - **No bastion host:** I replaced it with Systems Manager Session Manager. This removed the bastion's public IP, open SSH port and SSH key pairs, moved access control to IAM, and lowered cost, since Session Manager is free and a bastion is an EC2 instance.
 - **IMDSv2 required:** I set IMDSv2 to be required on all instances, which stops SSRF-based credential theft and satisfies the IMDSv2 checks in CIS and Security Hub.
 - **Security groups chained tier to tier:** each tier only accepts traffic from the tier in front of it.
@@ -254,7 +255,6 @@ This is a learning and portfolio build. Things I would change for production:
 - **RDS is single-AZ.** Set `multi_az = true` for automatic failover.
 - **Software installed at boot with `user_data`.** Production would bake a golden AMI (Packer or EC2 Image Builder).
 - **Web and app tiers serve static pages.** The tiers are connected at the network and security group level, but the web tier does not yet call the app tier from application code.
-- **Local Terraform state.** A shared setup would use an S3 backend with versioning, encryption, and state locking.
 - **Refactor into modules** (network, ASG tier, ALB) once a second environment is needed.
 - Add `default_tags`, encrypted EBS volumes in the launch templates, and security scanning (tflint, checkov) in CI.
 
