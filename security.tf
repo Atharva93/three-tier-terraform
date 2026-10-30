@@ -1,4 +1,4 @@
-# Security groups
+# security groups
 resource "aws_security_group" "web_alb_sg" {
   name_prefix = "web-alb-sg-"
   vpc_id      = aws_vpc.main.id
@@ -15,7 +15,6 @@ resource "aws_security_group" "web_ec2_sg" {
   }
 }
 
-# app load balancer
 resource "aws_security_group" "app_alb_sg" {
   name_prefix = "app-alb-sg-"
   vpc_id      = aws_vpc.main.id
@@ -41,8 +40,8 @@ resource "aws_security_group" "db_sg" {
 }
 
 
-# in out rules
-# web_alb_sg
+# ingress egress rules
+# web alb rules
 resource "aws_vpc_security_group_ingress_rule" "web_alb_in_web" {
   security_group_id = aws_security_group.web_alb_sg.id
   description       = "WEB to WEB ALB"
@@ -61,7 +60,7 @@ resource "aws_vpc_security_group_egress_rule" "web_alb_out_web_ec2" {
 }
 
 
-# web ec2 sg
+# web ec2 rules
 resource "aws_vpc_security_group_ingress_rule" "web_ec2_web_in" {
   security_group_id            = aws_security_group.web_ec2_sg.id
   description                  = "WEB ALB to EC2"
@@ -87,7 +86,7 @@ resource "aws_vpc_security_group_egress_rule" "web_ec2_out_internet" {
   ip_protocol       = "tcp"
 }
 
-#app_alb_sg
+# app alb rules
 resource "aws_vpc_security_group_ingress_rule" "app_alb_in_web_ec2" {
   security_group_id            = aws_security_group.app_alb_sg.id
   description                  = "WEB EC2 to APP ALB"
@@ -106,7 +105,7 @@ resource "aws_vpc_security_group_egress_rule" "app_alb_out_app_ec2" {
   ip_protocol                  = "tcp"
 }
 
-# app_ec2_sg
+# app ec2 rules
 resource "aws_vpc_security_group_ingress_rule" "app_ec2_in_app_alb" {
   security_group_id            = aws_security_group.app_ec2_sg.id
   description                  = "APP ALB to APP EC2"

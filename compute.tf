@@ -1,4 +1,4 @@
-# -------- EC2 AMI
+# EC2 AMI
 data "aws_ssm_parameter" "al2023" {
   name = "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64"
 }
@@ -52,7 +52,7 @@ resource "aws_autoscaling_group" "web_asg" {
     aws_route_table_association.public_web_B
   ]
 }
-# ----------------------------------------------------------------------------------------------
+
 # ASG for app tier
 resource "aws_launch_template" "app_lt" {
   name_prefix            = "app-"

@@ -70,7 +70,7 @@ resource "aws_subnet" "private_db_subnetB" {
   }
 }
 
-# internet gateway
+# main internet gateway
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main.id
 }
@@ -84,7 +84,7 @@ resource "aws_eip" "nat_eip" {
   }
 }
 
-# NAT gateway elastic
+# NAT gateway
 resource "aws_nat_gateway" "main_nat" {
   allocation_id = aws_eip.nat_eip.id
   subnet_id     = aws_subnet.public_web_subnetA.id
@@ -127,6 +127,7 @@ resource "aws_route_table" "db_isolated" {
   }
 }
 
+# route table associations to subnets
 resource "aws_route_table_association" "public_web_A" {
   subnet_id      = aws_subnet.public_web_subnetA.id
   route_table_id = aws_route_table.public.id
