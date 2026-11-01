@@ -7,7 +7,7 @@ I used 3 tiers (public web tier, private application tier, and a private databas
 ![Architecture diagram](images/architecture.png)
 
 ## Why I built this
-I'm moving from IT Support to cloud and security work. This project is based on Aalok Trivedi's article [Building a 3-tier web application architecture with AWS](https://medium.com/@aaloktrivedi/building-a-3-tier-web-application-architecture-with-aws-eb5981613e30), which builds a similar architecture through the AWS console. I rebuilt it using Terraform and implemented some changes for improved security. 
+I work in IT Support and built this project to expand my practical skills in cloud infrastructure and security engineering. This project is based on Aalok Trivedi's article [Building a 3-tier web application architecture with AWS](https://medium.com/@aaloktrivedi/building-a-3-tier-web-application-architecture-with-aws-eb5981613e30), which builds a similar architecture through the AWS console. I rebuilt it using Terraform and implemented some changes for improved security. 
 
 ## What was changed
 - **Terraform:** I built the entire project in Terraform, so it's repeatable, reviewable and version-controlled.
