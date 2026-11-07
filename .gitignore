@@ -4,3 +4,4 @@
 *.tfvars
 crash.log
 main.tf.backup
+!example.tfvars
