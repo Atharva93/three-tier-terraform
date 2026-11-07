@@ -16,6 +16,7 @@ I work in IT Support and built this project to expand my practical skills in clo
 - **IMDSv2 required:** I set IMDSv2 to be required on all instances, which stops SSRF-based credential theft and satisfies the IMDSv2 checks in CIS and Security Hub.
 - **Security groups chained tier to tier:** each tier only accepts traffic from the tier in front of it.
 - **RDS password in Secrets Manager:** I have RDS generate the database password and store it in Secrets Manager. It never appears in my code or in the Terraform state.
+- **Keyless CI/CD with GitHub Actions & OIDC:** Replaced manual local deployments with an automated GitHub Actions pipeline. AWS authentication uses OpenID Connect (OIDC) and short-lived STS tokens instead of long-lived access keys in repository secrets. Pull requests trigger automated `terraform plan` speculative checks, while merges to `main` trigger `terraform apply`.
 
 
 ## What it builds
@@ -90,6 +91,11 @@ Decoupled inline firewall rules into discrete `aws_vpc_security_group_ingress_ru
 ## Repository layout
 
 ```
+├── .github/workflows/
+│   ├── terraform.yml  # Plan on PR, Apply on merge to main
+│   └── destroy.yml    # Manual workflow_dispatch teardown
+└── images/
+    └── architecture.png
 ├── provider.tf    # Terraform and AWS provider configuration
 ├── network.tf     # VPC, subnets, IGW, NAT, route tables, associations
 ├── iam.tf         # SSM role, policy attachment, instance profile
@@ -98,9 +104,12 @@ Decoupled inline firewall rules into discrete `aws_vpc_security_group_ingress_ru
 ├── compute.tf     # AMI lookup, launch templates, Auto Scaling groups
 ├── database.tf    # RDS subnet group and PostgreSQL instance
 ├── output.tf      # ALB DNS names
-└── images/
-    └── architecture.png
+
+
 ```
+## CI/CD Pipeline (GitHub Actions & AWS OIDC)
+
+Infrastructure changes are fully automated using a two-stage GitHub Actions pipeline designed around least privilege and safe deployment practices:
 
 ## Deploy
 
@@ -260,4 +269,4 @@ This is a learning and portfolio build. Things I would change for production:
 
 ## Tech
 
-Terraform, AWS (VPC, EC2, Auto Scaling, ELB, RDS, IAM, Systems Manager, Secrets Manager), Amazon Linux 2023, nginx, PostgreSQL, bash.
+Terraform, AWS (VPC, EC2, Auto Scaling, ELB, RDS, IAM, Systems Manager, Secrets Manager), Amazon Linux 2023, nginx, PostgreSQL, bash, GitHub Actions, OpenID Connect (OIDC).
