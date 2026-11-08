@@ -21,15 +21,14 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-        
-      # Add this step to scan Terraform files for security misconfigurations
+
       - name: Run Trivy IaC Security Scan
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'config'
           scan-ref: '.'
           format: 'table'
-          exit-code: '0' # Set to '1' when you want it to fail the pipeline on severe issues
+          exit-code: '0' # Set to 1 to fail the pipeline 
           severity: 'CRITICAL,HIGH'
 
       - name: Configure AWS Credentials (OIDC)
